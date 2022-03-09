@@ -1,10 +1,7 @@
 programa teste1
-    inteiro vetor[4] x k t
-    inteiro i vet[10] c
+    inteiro vetor[4] i
 inicio
-    leia i
     i <- 0
-    leia vet[10 * 8]
     enquanto i < 4 faca 
         vetor[i] <- (i + 1) * 10
         i <- i + 1
