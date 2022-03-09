@@ -1,3 +1,13 @@
+/*-------------------------------------------------
+  |         Unifal - Universidade Federal de Alfenas.
+  |             BACHARELADO EM CIENCIA DA COMPUTACAO.
+  | Trabalho..: Vetor e verificaocao de tipos
+  | Disciplina: Teoria de Linguagens e Compiladores
+  | Professor.: Luiz Eduardo da Silva
+  | Aluno.....: Guilherme Augusto Gouveia
+  | Data......: 09/03/2022
+  -------------------------------------------------*/
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -106,7 +116,6 @@ variavel
     : T_IDENTIF
        {
             strcpy(elem_tab.id, atomo); 
-            printf("var: %s\n", atomo);  
             elem_tab.tipo = tipo;
         } // Adiciona as informações necessários antes que passe para declaracao_tamanho, 
           // pois quando isso ocorrer, a variavel mudará seu conteúdo para o tamanho do vetor, se o elemento for um vetor

@@ -1,3 +1,13 @@
+/*-------------------------------------------------
+  |         Unifal - Universidade Federal de Alfenas.
+  |             BACHARELADO EM CIENCIA DA COMPUTACAO.
+  | Trabalho..: Vetor e verificaocao de tipos
+  | Disciplina: Teoria de Linguagens e Compiladores
+  | Professor.: Luiz Eduardo da Silva
+  | Aluno.....: Guilherme Augusto Gouveia
+  | Data......: 09/03/2022
+  -------------------------------------------------*/
+
 %{
 #include "sintatico.h"
 void erro (char *s);

@@ -1,6 +1,7 @@
 programa teste1
-    inteiro a
-    logico c
+    inteiro a X[10] l[10] k o p[10]
+    logico c b[20]
+    inteiro x P[10]
 inicio
     leia c
     enquanto c faca
