@@ -1,0 +1,10 @@
+programa teste1
+    inteiro a
+    logico c
+inicio
+    leia c
+    enquanto c faca
+        escreva a
+        a <- a + 1
+    fimenquanto
+fimprograma
