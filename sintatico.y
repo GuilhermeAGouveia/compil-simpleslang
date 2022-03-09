@@ -10,6 +10,7 @@ int yyerror (char *);
 int conta = 0;
 int rotulo = 0;
 char tipo = 0;
+int pos = -1; //modificação desnecessária, mas que melhora o desempenho do código
 %}
 
 %start programa
@@ -43,8 +44,8 @@ char tipo = 0;
 %token T_NAO
 %token T_ABRE
 %token T_FECHA
-%token T_ABRE_C
-%token T_FECHA_C
+%token T_ABRE_C //adicionando abre chaves
+%token T_FECHA_C //adicionando fecha chaves
 %token T_INTEIRO
 %token T_LOGICO
 
@@ -97,13 +98,7 @@ tipo
 
 lista_variaveis
     : lista_variaveis variavel 
-        {
-            insere_simbolo(elem_tab);
-        }
     | variavel
-        {
-            insere_simbolo(elem_tab);
-        }
 
     ;
 
@@ -113,7 +108,8 @@ variavel
             strcpy(elem_tab.id, atomo); 
             printf("var: %s\n", atomo);  
             elem_tab.tipo = tipo;
-        }
+        } // Adiciona as informações necessários antes que passe para declaracao_tamanho, 
+          // pois quando isso ocorrer, a variavel mudará seu conteúdo para o tamanho do vetor, se o elemento for um vetor
       declaracao_tamanho
     ;
 
@@ -123,14 +119,17 @@ declaracao_tamanho
             strcpy(elem_tab.cat, "VET");
             elem_tab.tam = atoi(atomo);
             elem_tab.endereco = conta; 
-            conta += atoi(atomo);       
-        }
-    | 
+            conta += atoi(atomo);      
+            insere_simbolo(elem_tab);
+        } //acaba de inserir as informações em elem_tab e o colocar na tabela de simbolos efetivamente
+
+    | //Ocorre quando não é vetor, ou seja, apenas uma variável
         {
             strcpy(elem_tab.cat, "VAR");
             elem_tab.tam = 1; 
             elem_tab.endereco = conta++; 
-        }
+            insere_simbolo(elem_tab);
+        } //acaba de inserir as informações em elem_tab e o colocar na tabela de simbolos efetivamente
 
 lista_comandos
     :
@@ -148,11 +147,21 @@ comando
 leitura
     : T_LEIA T_IDENTIF
         {
-          fprintf(yyout, "\tLEIA\n");
-          int pos = busca_simbolo(atomo);
-            if (pos == -1)
-              erro ("Variavel não declarada!");
-            fprintf(yyout, "\tARZG\t%d\n", TabSimb[pos].endereco); 
+            pos = busca_simbolo(atomo);
+                if (pos == -1)
+                erro ("Variavel não declarada!");
+            
+                empilha(pos);
+        }
+      declaracao_posicao //aqui já temos o valor da expressão que representa a posição calculada no topo da pilha de execução
+        {
+            int p = desempilha();
+            fprintf(yyout, "\tLEIA\n"); 
+            if (!strcmp(TabSimb[p].cat, "VAR"))
+                fprintf(yyout, "\tARZG\t%d\n", TabSimb[pos].endereco); 
+            else 
+                fprintf(yyout, "\tARZV\t%d\n", TabSimb[pos].endereco);
+        
         }
     ;
 
@@ -215,20 +224,36 @@ selecao
 atribuicao
     : T_IDENTIF 
         {
-            int pos = busca_simbolo(atomo);
+            pos = busca_simbolo(atomo);
             if (pos == -1)
               erro ("Variavel não declarada!");
             empilha(pos);
 
         }
-      T_ATRIB expr
+      declaracao_posicao //aqui já temos na pilha a expr que indica posição resolvida
+      T_ATRIB expr //aqui já temos na pilha a expr que será armazenada na pilha
         {
             char t = desempilha();
             int p = desempilha();
             if (t != TabSimb[p].tipo) erro ("Incompatibilidade de tipo!");
 
-            fprintf(yyout, "\tARZG\t%d\n", TabSimb[p].endereco); 
+            if (!strcmp(TabSimb[p].cat, "VAR")){
+                fprintf(yyout, "\tARZG\t%d\n", TabSimb[p].endereco); 
+            }
+            else {
+                fprintf(yyout, "\tARZV\t%d\n", TabSimb[p].endereco); 
+            }
         }
+    ;
+
+declaracao_posicao //diferente da declaracao_tamanho, essa regra aceita expressões entre os colchetes
+    : T_ABRE_C expr T_FECHA_C
+        {
+            //valida o tipo retornado por expr, que deve ser inteiro
+            int t = desempilha(); 
+            if (t != 'i') erro ("Incompatibilidade de tipo!");
+        }
+    | 
     ;
 
 expr
@@ -315,10 +340,21 @@ expr
 termo
     : T_IDENTIF 
         { 
-            int pos = busca_simbolo(atomo);
+            pos = busca_simbolo(atomo);
             if (pos == -1) erro ("Variável não encontrada!");
-            fprintf (yyout, "\tCRVG\t%d\n", TabSimb[pos].endereco); 
-            empilha( TabSimb[pos].tipo);
+            empilha(pos); //declaracao posicao também pode usar a variavel global pos, e isso sobrescreverá seu conteúdo em determinado contexto
+                          //logo o valor e empilhado e reutilizado abaixo
+        }
+      declaracao_posicao // quando chegamos aqui, a pilha de execução já contém o valor da expressão que indica posição no topo
+        {
+            pos = desempilha(); //recupera a posicao empilhada logo acima
+            if (!strcmp(TabSimb[pos].cat, "VAR")){
+                fprintf (yyout, "\tCRVG\t%d\n", TabSimb[pos].endereco);
+            }   
+            else {
+                fprintf (yyout, "\tCRVV\t%d\n", TabSimb[pos].endereco); 
+            }
+            empilha(TabSimb[pos].tipo);
         }
     | T_NUMERO
         { 

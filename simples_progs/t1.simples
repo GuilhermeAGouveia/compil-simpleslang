@@ -1,15 +1,19 @@
 programa teste1
-    inteiro c[10] k x a
-    logico g h i[10] j
+    inteiro vetor[4] x k t
+    inteiro i vet[10] c
 inicio
-    leia a
-    enquanto a < 10 faca
-        escreva a
-        se a < 1 entao
-            escreva V
-        senao 
-            escreva F
-        fimse
-        a <- a + 1
+    leia i
+    i <- 0
+    leia vet[10 * 8]
+    enquanto i < 4 faca 
+        vetor[i] <- (i + 1) * 10
+        i <- i + 1
+    fimenquanto
+    i <- 4
+    enquanto nao (i < 1) faca
+        escreva vetor[4-i]
+        i <- i - 1
     fimenquanto
 fimprograma
+
+
