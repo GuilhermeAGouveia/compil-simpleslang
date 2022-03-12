@@ -20,7 +20,6 @@ int yyerror (char *);
 int conta = 0;
 int rotulo = 0;
 char tipo = 0;
-int pos = -1; //modificação desnecessária, mas que melhora o desempenho do código
 %}
 
 %start programa
@@ -156,7 +155,7 @@ comando
 leitura
     : T_LEIA T_IDENTIF
         {
-            pos = busca_simbolo(atomo);
+            int pos = busca_simbolo(atomo);
                 if (pos == -1)
                 erro ("Variavel não declarada!");
             
@@ -167,9 +166,9 @@ leitura
             int p = desempilha();
             fprintf(yyout, "\tLEIA\n"); 
             if (!strcmp(TabSimb[p].cat, "VAR"))
-                fprintf(yyout, "\tARZG\t%d\n", TabSimb[pos].endereco); 
+                fprintf(yyout, "\tARZG\t%d\n", TabSimb[p].endereco); 
             else 
-                fprintf(yyout, "\tARZV\t%d\n", TabSimb[pos].endereco);
+                fprintf(yyout, "\tARZV\t%d\n", TabSimb[p].endereco);
         
         }
     ;
@@ -233,7 +232,7 @@ selecao
 atribuicao
     : T_IDENTIF 
         {
-            pos = busca_simbolo(atomo);
+            int pos = busca_simbolo(atomo);
             if (pos == -1)
               erro ("Variavel não declarada!");
             empilha(pos);
@@ -256,13 +255,21 @@ atribuicao
     ;
 
 declaracao_posicao //diferente da declaracao_tamanho, essa regra aceita expressões entre os colchetes
-    : T_ABRE_C expr T_FECHA_C
+    :  {
+            int p = desempilha();
+            if (!strcmp(TabSimb[p].cat, "VET")) { //Se for um vetor que não teve posição de acesso declarada, devo decidir oq fazer dentro da condicional
+                fprintf (yyout, "\tCRCT\t0\n"); //optei por presumir que o indice é 0
+                // erro("Erro de sintaxe"); // Ou poderia disparar um erro de sintaxe
+            }
+            empilha(p);
+       } //ocorre quando é uma variavel ou um vetor que não teve posição declarada
+
+    |  T_ABRE_C expr T_FECHA_C
         {
             //valida o tipo retornado por expr, que deve ser inteiro
             int t = desempilha(); 
             if (t != 'i') erro ("Incompatibilidade de tipo!");
         }
-    | 
     ;
 
 expr
@@ -349,14 +356,14 @@ expr
 termo
     : T_IDENTIF 
         { 
-            pos = busca_simbolo(atomo);
+            int pos = busca_simbolo(atomo);
             if (pos == -1) erro ("Variável não encontrada!");
             empilha(pos); //declaracao posicao também pode usar a variavel global pos, e isso sobrescreverá seu conteúdo em determinado contexto
                           //logo o valor e empilhado e reutilizado abaixo
         }
       declaracao_posicao // quando chegamos aqui, a pilha de execução já contém o valor da expressão que indica posição no topo
         {
-            pos = desempilha(); //recupera a posicao empilhada logo acima
+            int pos = desempilha(); //recupera a posicao empilhada logo acima
             if (!strcmp(TabSimb[pos].cat, "VAR")){
                 fprintf (yyout, "\tCRVG\t%d\n", TabSimb[pos].endereco);
             }   
