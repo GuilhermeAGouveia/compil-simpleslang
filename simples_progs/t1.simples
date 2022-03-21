@@ -1,18 +1,14 @@
 programa teste1
-    inteiro vetor[4] i vetor2[4] j k
+    inteiro vetor[4] i
 inicio
-    leia i
     i <- 0
-    vetor[0] <- 0
-    leia vetor
     enquanto i < 4 faca 
         vetor[i] <- (i + 1) * 10
-        vetor2[3-i] <- vetor[i] 
         i <- i + 1
     fimenquanto
     i <- 4
     enquanto nao (i < 1) faca
-        escreva vetor[4-i] + vetor[4-i]
+        escreva vetor[i - 1]
         i <- i - 1
     fimenquanto
 fimprograma

@@ -1422,7 +1422,7 @@ yyreduce:
 #line 76 "sintatico.y"
         { 
           fprintf(yyout, "\tDMEM\t%d\n", desempilha());
-          fprintf(yyout, "\tFIMP"); 
+          fprintf(yyout, "\tFIMP\n"); 
         }
 #line 1428 "sintatico.c"
     break;

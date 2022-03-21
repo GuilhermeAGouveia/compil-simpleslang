@@ -75,7 +75,7 @@ programa
     T_INICIO lista_comandos T_FIM
         { 
           fprintf(yyout, "\tDMEM\t%d\n", desempilha());
-          fprintf(yyout, "\tFIMP"); 
+          fprintf(yyout, "\tFIMP\n"); 
         }
     ;
 
