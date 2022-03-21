@@ -1,0 +1,13 @@
+programa vetorTest
+    inteiro a[10] i b[10]
+inicio
+    b[5] <- 9
+    a[b[5]] <- 50
+    b[1] <- 1
+    a[b[a[9] - 49]] <- 2
+    i <- 0
+    enquanto i < 10 faca
+        escreva a[i]
+        i <- i + 1
+    fimenquanto
+fimprograma
