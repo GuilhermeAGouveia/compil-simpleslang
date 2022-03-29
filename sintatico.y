@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lexico.c"
-#include "estruct.c"
+#include "estrut.c"
 
 void erro (char *);
 int yyerror (char *);
