@@ -1,0 +1,10 @@
+programa compara
+  inteiro a b
+inicio 
+  leia a 
+  leia b
+  se a > b
+     entao escreva a 
+     senao escreva b
+  fimse
+fimprograma

@@ -1,0 +1,18 @@
+programa testavetor
+   inteiro i j vetor[4]
+inicio
+   leia i
+   j <- 0
+   enquanto j < 4 faca
+      se i = j
+         entao vetor[j] <- 1000
+         senao vetor[j] <- 10
+      fimse
+      j <- j + 1
+   fimenquanto
+   i <- 0
+   enquanto i < 4 faca 
+      escreva vetor[i]
+      i <- i + 1
+   fimenquanto
+fimprograma

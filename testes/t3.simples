@@ -1,0 +1,13 @@
+programa aninhado
+  inteiro a b
+inicio
+  a <- 1
+  enquanto a < 5 faca
+     b <- 1
+     enquanto b < 5 faca
+        escreva a * b
+        b <- b + 1
+     fimenquanto
+     a <- a + 1
+  fimenquanto
+fimprograma

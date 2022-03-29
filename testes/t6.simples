@@ -1,0 +1,35 @@
+programa testavetor
+   inteiro vetor[8] i j min tmp
+inicio
+   i <- 0
+   // leitura do vetor
+   enquanto i < 8 faca 
+      leia vetor[i]
+      i <- i + 1
+   fimenquanto
+
+   // ordenacao do vetor
+   i <- 0
+   enquanto i < 7 faca
+      min <- i
+      j <- i + 1
+      enquanto j < 8 faca
+         se vetor[j] < vetor[min]
+            entao min <- j
+            senao
+         fimse
+         j <- j + 1
+      fimenquanto
+      tmp <- vetor[i]
+      vetor[i] <- vetor[min]
+      vetor[min] <- tmp
+      i <- i + 1
+   fimenquanto
+
+   // apresentacao do resultado
+   i <- 0
+   enquanto i < 8 faca 
+     escreva vetor[i]
+     i <- i + 1
+   fimenquanto
+fimprograma

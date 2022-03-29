@@ -1,0 +1,17 @@
+programa testa
+  inteiro A[4]
+  inteiro tmp
+inicio
+  A[0] <- 10
+  A[1] <- 20
+  A[2] <- 30
+  A[3] <- 40
+  tmp <- A[0]
+  A[0] <- A[3]
+  A[3] <- tmp
+  tmp <- 0
+  enquanto tmp < 4 faca 
+     escreva A[tmp]
+     tmp <- tmp + 1
+  fimenquanto
+fimprograma

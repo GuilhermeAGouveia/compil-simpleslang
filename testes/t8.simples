@@ -1,0 +1,10 @@
+programa teste
+   inteiro a b c
+inicio
+   a <- 10
+   b <- a
+   c <- b + 1
+   escreva a
+   escreva b
+   escreva c
+fimprograma

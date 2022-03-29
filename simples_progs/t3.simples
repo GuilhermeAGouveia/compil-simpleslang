@@ -1,4 +1,4 @@
-programa ooo
+programa sort
     inteiro vetor[8] i tmp
     logico troca
 inicio

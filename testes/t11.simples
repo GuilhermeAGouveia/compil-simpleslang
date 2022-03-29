@@ -1,0 +1,31 @@
+programa ordenacaotroca
+  inteiro vetor[8]
+  inteiro i tmp
+  logico troca
+inicio
+  i <- 0
+  enquanto i < 8 faca 
+     leia vetor[i]
+     i <- i + 1
+  fimenquanto
+  troca <- V 
+  enquanto troca faca
+     troca <- F 
+     i <- 0
+     enquanto i < 7 faca
+         se vetor[i] > vetor[i+1]
+            entao tmp <- vetor[i]
+                  vetor[i] <- vetor[i+1]
+                  vetor[i+1] <- tmp
+                  troca <- V 
+            senao
+         fimse
+         i <- i + 1
+     fimenquanto
+  fimenquanto
+  i <- 0
+  enquanto i < 8 faca 
+     escreva vetor[i]
+     i <- i + 1
+  fimenquanto
+fimprograma

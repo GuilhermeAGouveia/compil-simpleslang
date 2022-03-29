@@ -359,7 +359,7 @@ termo
             int pos = busca_simbolo(atomo);
             if (pos == -1) erro ("Variável não encontrada!");
             empilha(pos); //declaracao posicao também pode usar a variavel global pos, e isso sobrescreverá seu conteúdo em determinado contexto
-                          //logo o valor e empilhado e reutilizado abaixo
+                          //logo o valor e empilhado para ser reutilizado abaixo
         }
       declaracao_posicao // quando chegamos aqui, a pilha de execução já contém o valor da expressão que indica posição no topo
         {
