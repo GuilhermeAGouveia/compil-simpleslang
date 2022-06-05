@@ -1,16 +1,10 @@
 programa teste1
-    inteiro vetor[4] i
+  inteiro a b
 inicio
-    i <- 0
-    enquanto i < 4 faca 
-        vetor[i] <- (i + 1) * 10
-        i <- i + 1
-    fimenquanto
-    i <- 4
-    enquanto nao (i < 1) faca
-        escreva vetor[i - 1]
-        i <- i - 1
-    fimenquanto
+  leia a
+  b <- 1
+  enquanto b + 1 faca
+      escreva b
+      b <- b + 1
+  fimenquanto
 fimprograma
-
-
