@@ -1,1 +1,1 @@
-## Programas para testar a linguagem simples
+## Programas para testar a linguagem SIMPLES
